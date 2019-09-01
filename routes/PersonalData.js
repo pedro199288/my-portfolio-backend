@@ -10,10 +10,12 @@ const router = express.Router();
 const multipart = require('connect-multiparty');
 const multipartMiddleware = multipart({uploadDir: './uploads'});
 
+
+// PersonalData routes
 router.get('/home', PersonalDataController.home);
 router.post('/test', PersonalDataController.test);
 router.post('/personal-data/save', PersonalDataController.save);
-router.get('/personal-data/all', PersonalDataController.getAll);
+router.get('/personal-data/all', PersonalDataController.getAll); // Gets all personal_data documents
 router.get('/personal-data/:id?', PersonalDataController.get);
 router.put('/personal-data/:id', PersonalDataController.update);
 router.delete('/personal-data/:id', PersonalDataController.delete);
