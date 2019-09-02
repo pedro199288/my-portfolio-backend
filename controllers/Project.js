@@ -1,6 +1,6 @@
 'use strict'
 
-const PersonalData = require('../models/PersonalData');
+const Project = require('../models/Project');
 const fs = require('fs');
 
 const controller = {
@@ -9,20 +9,22 @@ const controller = {
      * Saves a document on collection
      */
     save: function(req, res) {
-        var personalData = new PersonalData();
+        var Project = new Project();
         const params = req.body;
 
-        personalData.key = params.key;
-        personalData.text = params.text;
-        personalData.value = params.value;
-        personalData.image = null;
+        Project.key = params.key;
+        Project.name = params.name;
+        Project.company = params.company;
+        Project.tools = params.tools;
+        Project.website = params.website;
+        Project.image = params.image;
 
-        personalData.save((err, personalDataStored) => {
+        Project.save((err, ProjectStored) => {
             if(err) return res.status(500).send({message: 'Save error !'});
 
-            if(!personalDataStored) return res.status(400).send({message: 'Error: the document has not been saved.'});
+            if(!ProjectStored) return res.status(400).send({message: 'Error: the document has not been saved.'});
 
-            return res.status(200).send({personalData: personalDataStored});
+            return res.status(200).send({Project: ProjectStored});
         });
     },
 
@@ -30,19 +32,17 @@ const controller = {
      * Gets a document of the collection by its id
      */
     get: function(req, res){
-        var personalDataId = req.params.id;
+        var ProjectId = req.params.id;
 
-        if(personalDataId == null) return res.status(404).send({message: 'There is not id on params'});
+        if(ProjectId == null) return res.status(404).send({message: 'There is not id on params'});
     
 
-        PersonalData.findById(personalDataId, (err, personalData) => {
-            if(err) return res.status(500).send({message: 'Error: Can\'t return personalData'});
+        Project.findById(ProjectId, (err, Project) => {
+            if(err) return res.status(500).send({message: 'Error: Can\'t return Project'});
 
-            if(!personalData) return res.status(404).send({message: 'The personalData does not exists'});
+            if(!Project) return res.status(404).send({message: 'The Project does not exists'});
 
-            return res.status(200).send({
-                personalData
-            })
+            return res.status(200).send({ Project });
         });
     },
 
@@ -50,12 +50,12 @@ const controller = {
      * Gets all documents of the collection
      */
     getAll: function (req, res){
-        PersonalData.find({}).exec((err, personalData) => {
+        Project.find({}).exec((err, Project) => {
             if(err) return res.status(500).send({message: 'Error returning data.'});
 
-            if(!personalData) return res.status(404).send({message: 'There are not data to be returned.'});
+            if(!Project) return res.status(404).send({message: 'There are not data to be returned.'});
 
-            return res.status(200).send({personalData});
+            return res.status(200).send({Project});
         });
     },
 
@@ -63,15 +63,15 @@ const controller = {
      * Updates a document of the collection by its id
      */
     update: function(req, res) {
-        const personalDataId = req.params.id;
+        const ProjectId = req.params.id;
         const update = req.body;
 
-        PersonalData.findByIdAndUpdate(personalDataId, update, {new: true, useFindAndModify: false}, (err, personalDataUpdated) => {
+        Project.findByIdAndUpdate(ProjectId, update, {new: true, useFindAndModify: false}, (err, ProjectUpdated) => {
             if(err) return res.status(500).send({message: 'Error updating data.'});
 
-            if(!personalDataUpdated) return res.status(404).send({message: 'The personalData to be updated does not exists.'});
+            if(!ProjectUpdated) return res.status(404).send({message: 'The Project to be updated does not exists.'});
 
-            return res.status(200).send({personalDataUpdated});
+            return res.status(200).send({ProjectUpdated});
         });
     },
 
@@ -79,14 +79,14 @@ const controller = {
      * Deletes a document of the collection by its id
      */
     delete: function(req, res) {
-        const personalDataId = req.params.id;
+        const ProjectId = req.params.id;
         
-        PersonalData.findByIdAndDelete(personalDataId, (err, personalDataDeleted) => {
-            if(err) return res.status(500).send({message: 'Error deleting personalData'});
+        Project.findByIdAndDelete(ProjectId, (err, ProjectDeleted) => {
+            if(err) return res.status(500).send({message: 'Error deleting Project'});
 
-            if(!personalDataDeleted) return res.status(404).send({message: 'Cannot delete this personalData.'});
+            if(!ProjectDeleted) return res.status(404).send({message: 'Cannot delete this Project.'});
 
-            return res.status(200).send({personalDataDeleted});
+            return res.status(200).send({ProjectDeleted});
         });
     },
 
@@ -95,7 +95,7 @@ const controller = {
      */
     // TODO: Borrar método de donde no se use
     uploadImage: function (req, res) {
-        const personalDataId = req.params.id;
+        const ProjectId = req.params.id;
         var fileName = 'Image not uploaded';
 
         if(req.files){
@@ -107,12 +107,12 @@ const controller = {
 
             if(fileExt == 'png' || fileExt == 'jpg' || fileExt == 'jpeg' || fileExt == 'gif'){
                 // Update de document
-                PersonalData.findByIdAndUpdate(personalDataId, {image: fileName}, {new: true, useFindAndModify: false}, (err, personalDataUpdated) => {
+                Project.findByIdAndUpdate(ProjectId, {image: fileName}, {new: true, useFindAndModify: false}, (err, ProjectUpdated) => {
                     if(err) return res.status(500).send({message: 'Error uploading image.'});
     
-                    if(!personalDataUpdated) return res.status(404).send({message: 'The personalData to be updated does not exists.'});
+                    if(!ProjectUpdated) return res.status(404).send({message: 'The Project to be updated does not exists.'});
     
-                    return res.status(200).send({personalDataUpdated});
+                    return res.status(200).send({ProjectUpdated});
                 });
             } else {
                 // If the extension is not correct, unlink the uploaded file
