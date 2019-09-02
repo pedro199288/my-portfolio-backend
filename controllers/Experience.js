@@ -1,6 +1,6 @@
 'use strict'
 
-const PersonalData = require('../models/PersonalData');
+const Experience = require('../models/Experience');
 const fs = require('fs');
 
 const controller = {
@@ -9,21 +9,22 @@ const controller = {
      * Saves a document on collection
      */
     save: function(req, res) {
-        var personalData = new PersonalData();
+        var Experience = new Experience();
         const params = req.body;
 
-        personalData.key = params.key;
-        personalData.text = params.text;
-        personalData.value = params.value;
-        personalData.link = params.link;
-        personalData.image = null;
+        Experience.key = params.key;
+        Experience.date.start = params.start;
+        Experience.date.end = params.end;
+        Experience.company = params.company;
+        Experience.rol = params.rol;
+        Experience.description = params.description;
 
-        personalData.save((err, personalDataStored) => {
+        Experience.save((err, ExperienceStored) => {
             if(err) return res.status(500).send({message: 'Save error !'});
 
-            if(!personalDataStored) return res.status(400).send({message: 'Error: the document has not been saved.'});
+            if(!ExperienceStored) return res.status(400).send({message: 'Error: the document has not been saved.'});
 
-            return res.status(200).send({personalData: personalDataStored});
+            return res.status(200).send({Experience: ExperienceStored});
         });
     },
 
@@ -31,19 +32,17 @@ const controller = {
      * Gets a document of the collection by its id
      */
     get: function(req, res){
-        var personalDataId = req.params.id;
+        var ExperienceId = req.params.id;
 
-        if(personalDataId == null) return res.status(404).send({message: 'There is not id on params'});
+        if(ExperienceId == null) return res.status(404).send({message: 'There is not id on params'});
     
 
-        PersonalData.findById(personalDataId, (err, personalData) => {
-            if(err) return res.status(500).send({message: 'Error: Can\'t return personalData'});
+        Experience.findById(ExperienceId, (err, Experience) => {
+            if(err) return res.status(500).send({message: 'Error: Can\'t return Experience'});
 
-            if(!personalData) return res.status(404).send({message: 'The personalData does not exists'});
+            if(!Experience) return res.status(404).send({message: 'The Experience does not exists'});
 
-            return res.status(200).send({
-                personalData
-            })
+            return res.status(200).send({ Experience });
         });
     },
 
@@ -51,12 +50,12 @@ const controller = {
      * Gets all documents of the collection
      */
     getAll: function (req, res){
-        PersonalData.find({}).exec((err, personalData) => {
+        Experience.find({}).exec((err, Experience) => {
             if(err) return res.status(500).send({message: 'Error returning data.'});
 
-            if(!personalData) return res.status(404).send({message: 'There are not data to be returned.'});
+            if(!Experience) return res.status(404).send({message: 'There are not data to be returned.'});
 
-            return res.status(200).send({personalData});
+            return res.status(200).send({Experience});
         });
     },
 
@@ -64,15 +63,15 @@ const controller = {
      * Updates a document of the collection by its id
      */
     update: function(req, res) {
-        const personalDataId = req.params.id;
+        const ExperienceId = req.params.id;
         const update = req.body;
 
-        PersonalData.findByIdAndUpdate(personalDataId, update, {new: true, useFindAndModify: false}, (err, personalDataUpdated) => {
+        Experience.findByIdAndUpdate(ExperienceId, update, {new: true, useFindAndModify: false}, (err, ExperienceUpdated) => {
             if(err) return res.status(500).send({message: 'Error updating data.'});
 
-            if(!personalDataUpdated) return res.status(404).send({message: 'The personalData to be updated does not exists.'});
+            if(!ExperienceUpdated) return res.status(404).send({message: 'The Experience to be updated does not exists.'});
 
-            return res.status(200).send({personalDataUpdated});
+            return res.status(200).send({ExperienceUpdated});
         });
     },
 
@@ -80,14 +79,14 @@ const controller = {
      * Deletes a document of the collection by its id
      */
     delete: function(req, res) {
-        const personalDataId = req.params.id;
+        const ExperienceId = req.params.id;
         
-        PersonalData.findByIdAndDelete(personalDataId, (err, personalDataDeleted) => {
-            if(err) return res.status(500).send({message: 'Error deleting personalData'});
+        Experience.findByIdAndDelete(ExperienceId, (err, ExperienceDeleted) => {
+            if(err) return res.status(500).send({message: 'Error deleting Experience'});
 
-            if(!personalDataDeleted) return res.status(404).send({message: 'Cannot delete this personalData.'});
+            if(!ExperienceDeleted) return res.status(404).send({message: 'Cannot delete this Experience.'});
 
-            return res.status(200).send({personalDataDeleted});
+            return res.status(200).send({ExperienceDeleted});
         });
     },
 
@@ -96,7 +95,7 @@ const controller = {
      */
     // TODO: Borrar método de donde no se use
     uploadImage: function (req, res) {
-        const personalDataId = req.params.id;
+        const ExperienceId = req.params.id;
         var fileName = 'Image not uploaded';
 
         if(req.files){
@@ -108,12 +107,12 @@ const controller = {
 
             if(fileExt == 'png' || fileExt == 'jpg' || fileExt == 'jpeg' || fileExt == 'gif'){
                 // Update de document
-                PersonalData.findByIdAndUpdate(personalDataId, {image: fileName}, {new: true, useFindAndModify: false}, (err, personalDataUpdated) => {
+                Experience.findByIdAndUpdate(ExperienceId, {image: fileName}, {new: true, useFindAndModify: false}, (err, ExperienceUpdated) => {
                     if(err) return res.status(500).send({message: 'Error uploading image.'});
     
-                    if(!personalDataUpdated) return res.status(404).send({message: 'The personalData to be updated does not exists.'});
+                    if(!ExperienceUpdated) return res.status(404).send({message: 'The Experience to be updated does not exists.'});
     
-                    return res.status(200).send({personalDataUpdated});
+                    return res.status(200).send({ExperienceUpdated});
                 });
             } else {
                 // If the extension is not correct, unlink the uploaded file

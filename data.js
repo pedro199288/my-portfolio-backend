@@ -42,7 +42,8 @@ export const personalData = [
     {
         key     : 'address',
         text    : 'address',
-        value   : 'Calle Ricardo Ortiz, 44, Madrid (Spain)'
+        value   : 'Calle Ricardo Ortiz, 44, Madrid (Spain)',
+        valueEN : '44 Ricardo  Ortiz Street, Madrid (Spain)'
     },
     {
         key     : 'phone',
