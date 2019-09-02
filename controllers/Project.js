@@ -93,7 +93,6 @@ const controller = {
     /**
      * Uploads an image to Server and adds the image's name to a document by its id.
      */
-    // TODO: Borrar método de donde no se use
     uploadImage: function (req, res) {
         const ProjectId = req.params.id;
         var fileName = 'Image not uploaded';

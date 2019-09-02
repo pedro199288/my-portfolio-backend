@@ -90,45 +90,6 @@ const controller = {
         });
     },
 
-    /**
-     * Uploads an image to Server and adds the image's name to a document by its id.
-     */
-    // TODO: Borrar método de donde no se use
-    uploadImage: function (req, res) {
-        const ExperienceId = req.params.id;
-        var fileName = 'Image not uploaded';
-
-        if(req.files){
-            const filePath = req.files.image.path;      // gets the file path of the image
-            const fileSplit = filePath.split('\\');     // splits the file path to get the file name
-            const fileName = fileSplit[1];              // gets the file name
-            const extSplit = fileName.split('\.');      // splits the file name to get the extension
-            const fileExt = extSplit[1];                // gets the extensions to check it after
-
-            if(fileExt == 'png' || fileExt == 'jpg' || fileExt == 'jpeg' || fileExt == 'gif'){
-                // Update de document
-                Experience.findByIdAndUpdate(ExperienceId, {image: fileName}, {new: true, useFindAndModify: false}, (err, ExperienceUpdated) => {
-                    if(err) return res.status(500).send({message: 'Error uploading image.'});
-    
-                    if(!ExperienceUpdated) return res.status(404).send({message: 'The Experience to be updated does not exists.'});
-    
-                    return res.status(200).send({ExperienceUpdated});
-                });
-            } else {
-                // If the extension is not correct, unlink the uploaded file
-                fs.unlink(filePath, (err) => {
-                    return res.status(200).send({message: 'Not valid extension'});
-                });
-            }
-        } else {
-            // there are not files in the request, send response
-            return res.status(200).send({
-                message: fileName
-            });
-        }
-
-    }
-
 }
 
 // Exports the module to be used on routes files
