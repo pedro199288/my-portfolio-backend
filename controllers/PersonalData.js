@@ -15,6 +15,7 @@ const controller = {
         personalData.key = params.key;
         personalData.text = params.text;
         personalData.value = params.value;
+        personalData.link = params.link;
         personalData.image = null;
 
         personalData.save((err, personalDataStored) => {
