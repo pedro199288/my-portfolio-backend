@@ -22,7 +22,7 @@ export const personalData = [
     {
         key     : 'description',
         text    : 'description',
-        value   : '<p>I am an pasionated <strong>Full Stack Web Developer</strong> who really enjoys building new things and learning new stuffs!</p> <p>Currently, I am working in a digital marketing company building  <strong>websites</strong> and  <strong>webapps</strong> with <strong>PHP</strong>, <strong>JavaScript</strong>, <strong>HTML</strong> and <strong>CSS</strong>. Not having enough with that, I am also coding and learning on my leisure time.</p><p>For example, in the short term I plan to get more skilled on <strong>NodeJS</strong> and JavaScript front-end frameworks like <strong>Angular</strong> and <strong>React</strong>. In the long term, I will probably learn about <strong>Python</strong> to see all the things that can be done with it.</p>'
+        value   : '<p>I am a pasionated <strong>Full Stack Web Developer</strong> who really enjoys building new things and learning new stuffs!</p> <p>Currently, I am working in a digital marketing company building  <strong>websites</strong> and  <strong>webapps</strong> with <strong>PHP</strong>, <strong>JavaScript</strong>, <strong>HTML</strong> and <strong>CSS</strong>. Not having enough with that, I am also coding and learning on my leisure time.</p><p>For example, in the short term I plan to get more skilled on <strong>NodeJS</strong> and JavaScript front-end frameworks like <strong>Angular</strong> and <strong>React</strong>. In the long term, I will probably learn about <strong>Python</strong> to see all the things that can be done with it.</p>'
     },
     {
         key     : 'birthDay',
