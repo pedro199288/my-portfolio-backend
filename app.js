@@ -6,7 +6,7 @@ const app = express();
 
 
 // load routes files
-const project_routes = require('./routes/PersonalData');
+const project_routes = require('./routes');
 
 // middlewares
 app.use(bodyParser.urlencoded({extended:false})); // necessary config for body-parser
