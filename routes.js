@@ -9,7 +9,7 @@ const multipart = require('connect-multiparty');
 const multipartMiddleware = multipart({uploadDir: './uploads'});
 
 // Routes for PersonalData
-const PersonalDataController = require('../controllers/PersonalData'); // Declare Controller for the routes
+const PersonalDataController = require('./controllers/PersonalData'); // Declare Controller for the routes
 
 router.post('/personal-data/save', PersonalDataController.save);
 router.get('/personal-data/all', PersonalDataController.getAll);
@@ -18,7 +18,7 @@ router.put('/personal-data/:id', PersonalDataController.update);
 router.delete('/personal-data/:id', PersonalDataController.delete);
 
 // Routes for Skill
-const SkillController = require('../controllers/Skill'); // Declare Controller for the routes
+const SkillController = require('./controllers/Skill'); // Declare Controller for the routes
 
 router.post('/skill/save', SkillController.save);
 router.get('/skill/all', SkillController.getAll);
@@ -27,7 +27,7 @@ router.put('/skill/:id', SkillController.update);
 router.delete('/skill/:id', SkillController.delete);
 
 // Routes for Experience
-const ExperienceController = require('../controllers/Experience'); // Declare Controller for the routes
+const ExperienceController = require('./controllers/Experience'); // Declare Controller for the routes
 
 router.post('/experience/save', ExperienceController.save);
 router.get('/experience/all', ExperienceController.getAll);
@@ -36,7 +36,7 @@ router.put('/experience/:id', ExperienceController.update);
 router.delete('/experience/:id', ExperienceController.delete);
 
 // Routes for Education
-const EducationController = require('../controllers/Education'); // Declare Controller for the routes
+const EducationController = require('./controllers/Education'); // Declare Controller for the routes
 
 router.post('/education/save', EducationController.save);
 router.get('/education/all', EducationController.getAll);
@@ -45,7 +45,7 @@ router.put('/education/:id', EducationController.update);
 router.delete('/education/:id', EducationController.delete);
 
 // Routes for Project
-const ProjectController = require('../controllers/Project'); // Declare Controller for the routes
+const ProjectController = require('./controllers/Project'); // Declare Controller for the routes
 
 router.post('/project/save', ProjectController.save);
 router.get('/project/all', ProjectController.getAll);
