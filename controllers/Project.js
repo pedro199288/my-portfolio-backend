@@ -1,6 +1,6 @@
 'use strict'
 
-const Project = require('../models/Project');
+const Project = require('../models/project');
 const fs = require('fs');
 
 const controller = {
@@ -9,22 +9,22 @@ const controller = {
      * Saves a document on collection
      */
     save: function(req, res) {
-        var Project = new Project();
+        var project = new Project();
         const params = req.body;
 
-        Project.key = params.key;
-        Project.name = params.name;
-        Project.company = params.company;
-        Project.tools = params.tools;
-        Project.website = params.website;
-        Project.image = params.image;
+        project.key = params.key;
+        project.name = params.name;
+        project.company = params.company;
+        project.tools = params.tools;
+        project.website = params.website;
+        project.image = params.image;
 
-        Project.save((err, ProjectStored) => {
+        project.save((err, projectStored) => {
             if(err) return res.status(500).send({message: 'Save error !'});
 
-            if(!ProjectStored) return res.status(400).send({message: 'Error: the document has not been saved.'});
+            if(!projectStored) return res.status(400).send({message: 'Error: the document has not been saved.'});
 
-            return res.status(200).send({Project: ProjectStored});
+            return res.status(200).send({project: projectStored});
         });
     },
 
@@ -32,17 +32,17 @@ const controller = {
      * Gets a document of the collection by its id
      */
     get: function(req, res){
-        var ProjectId = req.params.id;
+        var projectId = req.params.id;
 
-        if(ProjectId == null) return res.status(404).send({message: 'There is not id on params'});
+        if(projectId == null) return res.status(404).send({message: 'There is not id on params'});
     
 
-        Project.findById(ProjectId, (err, Project) => {
-            if(err) return res.status(500).send({message: 'Error: Can\'t return Project'});
+        Project.findById(projectId, (err, project) => {
+            if(err) return res.status(500).send({message: 'Error: Can\'t return project'});
 
-            if(!Project) return res.status(404).send({message: 'The Project does not exists'});
+            if(!project) return res.status(404).send({message: 'The project does not exists'});
 
-            return res.status(200).send({ Project });
+            return res.status(200).send({ project });
         });
     },
 
@@ -50,12 +50,12 @@ const controller = {
      * Gets all documents of the collection
      */
     getAll: function (req, res){
-        Project.find({}).exec((err, Project) => {
+        Project.find({}).exec((err, projects) => {
             if(err) return res.status(500).send({message: 'Error returning data.'});
 
-            if(!Project) return res.status(404).send({message: 'There are not data to be returned.'});
+            if(!projects) return res.status(404).send({message: 'There are not data to be returned.'});
 
-            return res.status(200).send({Project});
+            return res.status(200).send({projects});
         });
     },
 
@@ -63,15 +63,15 @@ const controller = {
      * Updates a document of the collection by its id
      */
     update: function(req, res) {
-        const ProjectId = req.params.id;
+        const projectId = req.params.id;
         const update = req.body;
 
-        Project.findByIdAndUpdate(ProjectId, update, {new: true, useFindAndModify: false}, (err, ProjectUpdated) => {
+        Project.findByIdAndUpdate(projectId, update, {new: true, useFindAndModify: false}, (err, projectUpdated) => {
             if(err) return res.status(500).send({message: 'Error updating data.'});
 
-            if(!ProjectUpdated) return res.status(404).send({message: 'The Project to be updated does not exists.'});
+            if(!projectUpdated) return res.status(404).send({message: 'The project to be updated does not exists.'});
 
-            return res.status(200).send({ProjectUpdated});
+            return res.status(200).send({projectUpdated});
         });
     },
 
@@ -79,14 +79,14 @@ const controller = {
      * Deletes a document of the collection by its id
      */
     delete: function(req, res) {
-        const ProjectId = req.params.id;
+        const projectId = req.params.id;
         
-        Project.findByIdAndDelete(ProjectId, (err, ProjectDeleted) => {
-            if(err) return res.status(500).send({message: 'Error deleting Project'});
+        Project.findByIdAndDelete(projectId, (err, projectDeleted) => {
+            if(err) return res.status(500).send({message: 'Error deleting project'});
 
-            if(!ProjectDeleted) return res.status(404).send({message: 'Cannot delete this Project.'});
+            if(!projectDeleted) return res.status(404).send({message: 'Cannot delete this project.'});
 
-            return res.status(200).send({ProjectDeleted});
+            return res.status(200).send({projectDeleted});
         });
     },
 
@@ -94,7 +94,7 @@ const controller = {
      * Uploads an image to Server and adds the image's name to a document by its id.
      */
     uploadImage: function (req, res) {
-        const ProjectId = req.params.id;
+        const projectId = req.params.id;
         var fileName = 'Image not uploaded';
 
         if(req.files){
@@ -106,12 +106,12 @@ const controller = {
 
             if(fileExt == 'png' || fileExt == 'jpg' || fileExt == 'jpeg' || fileExt == 'gif'){
                 // Update de document
-                Project.findByIdAndUpdate(ProjectId, {image: fileName}, {new: true, useFindAndModify: false}, (err, ProjectUpdated) => {
+                Project.findByIdAndUpdate(projectId, {image: fileName}, {new: true, useFindAndModify: false}, (err, projectUpdated) => {
                     if(err) return res.status(500).send({message: 'Error uploading image.'});
     
-                    if(!ProjectUpdated) return res.status(404).send({message: 'The Project to be updated does not exists.'});
+                    if(!projectUpdated) return res.status(404).send({message: 'The project to be updated does not exists.'});
     
-                    return res.status(200).send({ProjectUpdated});
+                    return res.status(200).send({projectUpdated});
                 });
             } else {
                 // If the extension is not correct, unlink the uploaded file

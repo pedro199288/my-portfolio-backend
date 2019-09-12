@@ -13,7 +13,7 @@ const PersonalDataController = require('./controllers/PersonalData'); // Declare
 
 router.post('/personal-data/save', PersonalDataController.save);
 router.get('/personal-data/all', PersonalDataController.getAll);
-router.get('/personal-data/:id?', PersonalDataController.get);
+router.get('/personal-data/:id', PersonalDataController.get);
 router.put('/personal-data/:id', PersonalDataController.update);
 router.delete('/personal-data/:id', PersonalDataController.delete);
 

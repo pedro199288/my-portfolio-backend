@@ -1,6 +1,6 @@
 'use strict'
 
-const Experience = require('../models/Experience');
+const Experience = require('../models/experience');
 const fs = require('fs');
 
 const controller = {
@@ -9,22 +9,21 @@ const controller = {
      * Saves a document on collection
      */
     save: function(req, res) {
-        var Experience = new Experience();
+        var experience = new Experience();
         const params = req.body;
 
-        Experience.key = params.key;
-        Experience.date.start = params.start;
-        Experience.date.end = params.end;
-        Experience.company = params.company;
-        Experience.rol = params.rol;
-        Experience.description = params.description;
+        experience.key = params.key;
+        experience.date = params.date;
+        experience.company = params.company;
+        experience.rol = params.rol;
+        experience.description = params.description;
 
-        Experience.save((err, ExperienceStored) => {
+        experience.save((err, experienceStored) => {
             if(err) return res.status(500).send({message: 'Save error !'});
 
-            if(!ExperienceStored) return res.status(400).send({message: 'Error: the document has not been saved.'});
+            if(!experienceStored) return res.status(400).send({message: 'Error: the document has not been saved.'});
 
-            return res.status(200).send({Experience: ExperienceStored});
+            return res.status(200).send({experience: experienceStored});
         });
     },
 
@@ -32,17 +31,17 @@ const controller = {
      * Gets a document of the collection by its id
      */
     get: function(req, res){
-        var ExperienceId = req.params.id;
+        var experienceId = req.params.id;
 
-        if(ExperienceId == null) return res.status(404).send({message: 'There is not id on params'});
+        if(experienceId == null) return res.status(404).send({message: 'There is not id on params'});
     
 
-        Experience.findById(ExperienceId, (err, Experience) => {
-            if(err) return res.status(500).send({message: 'Error: Can\'t return Experience'});
+        Experience.findById(experienceId, (err, experience) => {
+            if(err) return res.status(500).send({message: 'Error: Can\'t return experience'});
 
-            if(!Experience) return res.status(404).send({message: 'The Experience does not exists'});
+            if(!experience) return res.status(404).send({message: 'The experience does not exists'});
 
-            return res.status(200).send({ Experience });
+            return res.status(200).send({ experience });
         });
     },
 
@@ -50,12 +49,12 @@ const controller = {
      * Gets all documents of the collection
      */
     getAll: function (req, res){
-        Experience.find({}).exec((err, Experience) => {
+        Experience.find({}).exec((err, experience) => {
             if(err) return res.status(500).send({message: 'Error returning data.'});
 
-            if(!Experience) return res.status(404).send({message: 'There are not data to be returned.'});
+            if(!experience) return res.status(404).send({message: 'There are not data to be returned.'});
 
-            return res.status(200).send({Experience});
+            return res.status(200).send({experience});
         });
     },
 
@@ -63,15 +62,15 @@ const controller = {
      * Updates a document of the collection by its id
      */
     update: function(req, res) {
-        const ExperienceId = req.params.id;
+        const experienceId = req.params.id;
         const update = req.body;
 
-        Experience.findByIdAndUpdate(ExperienceId, update, {new: true, useFindAndModify: false}, (err, ExperienceUpdated) => {
+        Experience.findByIdAndUpdate(experienceId, update, {new: true, useFindAndModify: false}, (err, experienceUpdated) => {
             if(err) return res.status(500).send({message: 'Error updating data.'});
 
-            if(!ExperienceUpdated) return res.status(404).send({message: 'The Experience to be updated does not exists.'});
+            if(!experienceUpdated) return res.status(404).send({message: 'The experience to be updated does not exists.'});
 
-            return res.status(200).send({ExperienceUpdated});
+            return res.status(200).send({experienceUpdated});
         });
     },
 
@@ -79,14 +78,14 @@ const controller = {
      * Deletes a document of the collection by its id
      */
     delete: function(req, res) {
-        const ExperienceId = req.params.id;
+        const experienceId = req.params.id;
         
-        Experience.findByIdAndDelete(ExperienceId, (err, ExperienceDeleted) => {
-            if(err) return res.status(500).send({message: 'Error deleting Experience'});
+        Experience.findByIdAndDelete(experienceId, (err, experienceDeleted) => {
+            if(err) return res.status(500).send({message: 'Error deleting experience'});
 
-            if(!ExperienceDeleted) return res.status(404).send({message: 'Cannot delete this Experience.'});
+            if(!experienceDeleted) return res.status(404).send({message: 'Cannot delete this experience.'});
 
-            return res.status(200).send({ExperienceDeleted});
+            return res.status(200).send({experienceDeleted});
         });
     },
 

@@ -9,19 +9,19 @@ const controller = {
      * Saves a document on collection
      */
     save: function(req, res) {
-        var Skill = new Skill();
+        var skill = new Skill();
         const params = req.body;
 
-        Skill.key = params.key;
-        Skill.text = params.text;
-        Skill.value = params.value;
+        skill.key = params.key;
+        skill.text = params.text;
+        skill.value = params.value;
 
-        Skill.save((err, SkillStored) => {
+        skill.save((err, skillStored) => {
             if(err) return res.status(500).send({message: 'Save error !'});
 
-            if(!SkillStored) return res.status(400).send({message: 'Error: the document has not been saved.'});
+            if(!skillStored) return res.status(400).send({message: 'Error: the document has not been saved.'});
 
-            return res.status(200).send({Skill: SkillStored});
+            return res.status(200).send({skill: skillStored});
         });
     },
 
@@ -29,17 +29,17 @@ const controller = {
      * Gets a document of the collection by its id
      */
     get: function(req, res){
-        var SkillId = req.params.id;
+        var skillId = req.params.id;
 
-        if(SkillId == null) return res.status(404).send({message: 'There is not id on params'});
+        if(skillId == null) return res.status(404).send({message: 'There is not id on params'});
     
 
-        Skill.findById(SkillId, (err, Skill) => {
-            if(err) return res.status(500).send({message: 'Error: Can\'t return Skill'});
+        Skill.findById(skillId, (err, skill) => {
+            if(err) return res.status(500).send({message: 'Error: Can\'t return skill'});
 
-            if(!Skill) return res.status(404).send({message: 'The Skill does not exists'});
+            if(!skill) return res.status(404).send({message: 'The skill does not exists'});
 
-            return res.status(200).send({ Skill });
+            return res.status(200).send({ skill });
         });
     },
 
@@ -47,12 +47,12 @@ const controller = {
      * Gets all documents of the collection
      */
     getAll: function (req, res){
-        Skill.find({}).exec((err, Skill) => {
+        Skill.find({}).exec((err, skills) => {
             if(err) return res.status(500).send({message: 'Error returning data.'});
 
-            if(!Skill) return res.status(404).send({message: 'There are not data to be returned.'});
+            if(!skills) return res.status(404).send({message: 'There are not data to be returned.'});
 
-            return res.status(200).send({Skill});
+            return res.status(200).send({skills : skills});
         });
     },
 
@@ -60,15 +60,15 @@ const controller = {
      * Updates a document of the collection by its id
      */
     update: function(req, res) {
-        const SkillId = req.params.id;
+        const skillId = req.params.id;
         const update = req.body;
 
-        Skill.findByIdAndUpdate(SkillId, update, {new: true, useFindAndModify: false}, (err, SkillUpdated) => {
+        Skill.findByIdAndUpdate(skillId, update, {new: true, useFindAndModify: false}, (err, skillUpdated) => {
             if(err) return res.status(500).send({message: 'Error updating data.'});
 
-            if(!SkillUpdated) return res.status(404).send({message: 'The Skill to be updated does not exists.'});
+            if(!skillUpdated) return res.status(404).send({message: 'The skill to be updated does not exists.'});
 
-            return res.status(200).send({SkillUpdated});
+            return res.status(200).send({skillUpdated});
         });
     },
 
@@ -76,14 +76,14 @@ const controller = {
      * Deletes a document of the collection by its id
      */
     delete: function(req, res) {
-        const SkillId = req.params.id;
+        const skillId = req.params.id;
         
-        Skill.findByIdAndDelete(SkillId, (err, SkillDeleted) => {
-            if(err) return res.status(500).send({message: 'Error deleting Skill'});
+        Skill.findByIdAndDelete(skillId, (err, skillDeleted) => {
+            if(err) return res.status(500).send({message: 'Error deleting skill'});
 
-            if(!SkillDeleted) return res.status(404).send({message: 'Cannot delete this Skill.'});
+            if(!skillDeleted) return res.status(404).send({message: 'Cannot delete this skill.'});
 
-            return res.status(200).send({SkillDeleted});
+            return res.status(200).send({skillDeleted});
         });
     },
 }

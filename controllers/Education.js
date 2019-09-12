@@ -1,6 +1,6 @@
 'use strict'
 
-const Education = require('../models/Education');
+const Education = require('../models/education');
 const fs = require('fs');
 
 const controller = {
@@ -9,23 +9,22 @@ const controller = {
      * Saves a document on collection
      */
     save: function(req, res) {
-        var Education = new Education();
+        var education = new Education();
         const params = req.body;
 
-        Education.key = params.key;
-        Education.date.start = params.start;
-        Education.date.end = params.end;
-        Education.center = params.center;
-        Education.name = params.name;
-        Education.clarification = params.clarification;
-        Education.link = params.link;
+        education.key = params.key;
+        education.date = params.date;
+        education.center = params.center;
+        education.name = params.name;
+        education.clarification = params.clarification;
+        education.link = params.link;
 
-        Education.save((err, EducationStored) => {
+        education.save((err, educationStored) => {
             if(err) return res.status(500).send({message: 'Save error !'});
 
-            if(!EducationStored) return res.status(400).send({message: 'Error: the document has not been saved.'});
+            if(!educationStored) return res.status(400).send({message: 'Error: the document has not been saved.'});
 
-            return res.status(200).send({Education: EducationStored});
+            return res.status(200).send({education: educationStored});
         });
     },
 
@@ -33,17 +32,17 @@ const controller = {
      * Gets a document of the collection by its id
      */
     get: function(req, res){
-        var EducationId = req.params.id;
+        var educationId = req.params.id;
 
-        if(EducationId == null) return res.status(404).send({message: 'There is not id on params'});
+        if(educationId == null) return res.status(404).send({message: 'There is not id on params'});
     
 
-        Education.findById(EducationId, (err, Education) => {
-            if(err) return res.status(500).send({message: 'Error: Can\'t return Education'});
+        Education.findById(educationId, (err, education) => {
+            if(err) return res.status(500).send({message: 'Error: Can\'t return education'});
 
-            if(!Education) return res.status(404).send({message: 'The Education does not exists'});
+            if(!education) return res.status(404).send({message: 'The education does not exists'});
 
-            return res.status(200).send({ Education });
+            return res.status(200).send({ education });
         });
     },
 
@@ -51,12 +50,12 @@ const controller = {
      * Gets all documents of the collection
      */
     getAll: function (req, res){
-        Education.find({}).exec((err, Education) => {
+        Education.find({}).exec((err, education) => {
             if(err) return res.status(500).send({message: 'Error returning data.'});
 
-            if(!Education) return res.status(404).send({message: 'There are not data to be returned.'});
+            if(!education) return res.status(404).send({message: 'There are not data to be returned.'});
 
-            return res.status(200).send({Education});
+            return res.status(200).send({education});
         });
     },
 
@@ -64,15 +63,15 @@ const controller = {
      * Updates a document of the collection by its id
      */
     update: function(req, res) {
-        const EducationId = req.params.id;
+        const educationId = req.params.id;
         const update = req.body;
 
-        Education.findByIdAndUpdate(EducationId, update, {new: true, useFindAndModify: false}, (err, EducationUpdated) => {
+        Education.findByIdAndUpdate(educationId, update, {new: true, useFindAndModify: false}, (err, educationUpdated) => {
             if(err) return res.status(500).send({message: 'Error updating data.'});
 
-            if(!EducationUpdated) return res.status(404).send({message: 'The Education to be updated does not exists.'});
+            if(!educationUpdated) return res.status(404).send({message: 'The education to be updated does not exists.'});
 
-            return res.status(200).send({EducationUpdated});
+            return res.status(200).send({educationUpdated});
         });
     },
 
@@ -80,14 +79,14 @@ const controller = {
      * Deletes a document of the collection by its id
      */
     delete: function(req, res) {
-        const EducationId = req.params.id;
+        const educationId = req.params.id;
         
-        Education.findByIdAndDelete(EducationId, (err, EducationDeleted) => {
-            if(err) return res.status(500).send({message: 'Error deleting Education'});
+        Education.findByIdAndDelete(educationId, (err, educationDeleted) => {
+            if(err) return res.status(500).send({message: 'Error deleting education'});
 
-            if(!EducationDeleted) return res.status(404).send({message: 'Cannot delete this Education.'});
+            if(!educationDeleted) return res.status(404).send({message: 'Cannot delete this education.'});
 
-            return res.status(200).send({EducationDeleted});
+            return res.status(200).send({educationDeleted});
         });
     },
 
