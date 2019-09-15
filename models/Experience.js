@@ -7,8 +7,8 @@ const Schema = mongoose.Schema;
 const ExperienceSchema = Schema({
     key: String,
     date: {
-        start: Date,
-        end: Date,
+        start: Date | String,
+        end: Date | String,
     },
     company: String,
     rol: String,

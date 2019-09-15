@@ -7,8 +7,8 @@ const Schema = mongoose.Schema;
 const EducationSchema = Schema({
     key: String,
     date: {
-        start: Date,
-        end: Date,
+        start: Date | String,
+        end: Date | String,
     },
     center: String,
     name: String,

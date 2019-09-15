@@ -1,6 +1,9 @@
 // app config file
 const express = require('express');
 const bodyParser = require('body-parser');
+const jwt = require('jsonwebtoken');
+const expressJwt = require('express-jwt');
+const SECRET = require('./secrets.js');
 
 const app = express();
 
@@ -22,6 +25,26 @@ app.use((req, res, next) => {
     next();
 });
 
+
+
+// this tells the app to use jwt to access endpoints unless they are those included in array 
+app.use(expressJwt({secret: SECRET}).unless({
+    path: [
+        {url: '/api/auth'},
+        // {url: '/api/personal-data/all'},
+        // {url: '/api/skill/all'},
+        // {url: '/api/skill/:id?'},
+        // {url: '/api/experience/all'},
+        // {url: '/api/experience/:id?'},
+        // {url: '/api/education/all'},
+        // {url: '/api/education/:id?'},
+        // {url: '/api/project/all'},
+        // {url: '/api/project/:id?'},
+        // {url: '/\/api\/project\/get-image\/.*/'}
+        {url: '/\/api/\/project/\/upload-image\/.*/'}
+    ],
+    method: 'GET'
+}));
 
 // routes
 app.use('/api', project_routes);

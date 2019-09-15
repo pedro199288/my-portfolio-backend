@@ -2,6 +2,7 @@
 
 const Project = require('../models/project');
 const fs = require('fs');
+const path = require('path');
 
 const controller = {
     // each method is used on a different route
@@ -126,6 +127,19 @@ const controller = {
             });
         }
 
+    },
+
+    getImage: function (req, res) {
+        const image = req.params.image;
+        const image_path = './uploads/'+image;
+
+        fs.exists(image_path, (exists) => { 
+            if(exists){
+                return res.sendFile(path.resolve(image_path));
+            } else {
+                return res.status(200).send({message: "The image does not exists."});
+            }
+        });
     }
 
 }
