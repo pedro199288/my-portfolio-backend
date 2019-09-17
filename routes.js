@@ -33,6 +33,7 @@ router.delete('/skill/:id', SkillController.delete);
 
 // Routes for Experience
 router.post('/experience/save', ExperienceController.save);
+router.get('/experience/all/:limit?', ExperienceController.getAll);
 router.get('/experience/all', ExperienceController.getAll);
 router.get('/experience/:id?', ExperienceController.get);
 router.put('/experience/:id', ExperienceController.update);
@@ -40,6 +41,7 @@ router.delete('/experience/:id', ExperienceController.delete);
 
 // Routes for Education
 router.post('/education/save', EducationController.save);
+router.get('/education/all/:limit?', EducationController.getAll);
 router.get('/education/all', EducationController.getAll);
 router.get('/education/:id?', EducationController.get);
 router.put('/education/:id', EducationController.update);
@@ -47,6 +49,7 @@ router.delete('/education/:id', EducationController.delete);
 
 // Routes for Project
 router.post('/project/save', ProjectController.save);
+router.get('/project/all/:limit?', ProjectController.getAll);
 router.get('/project/all', ProjectController.getAll);
 router.get('/project/:id?', ProjectController.get);
 router.put('/project/:id', ProjectController.update);

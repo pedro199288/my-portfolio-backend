@@ -49,7 +49,10 @@ const controller = {
      * Gets all documents of the collection
      */
     getAll: function (req, res){
-        Experience.find({}).exec((err, experience) => {
+        // limit param
+        const limit = req.params.limit ? +req.params.limit : null;
+        // TODO: hacer el sort y ver como controlar el orden según que fecha hay definida y cual no
+        Experience.find({}).sort({'date': -1}).limit(limit).exec((err, experience) => {
             if(err) return res.status(500).send({message: 'Error returning data.'});
 
             if(!experience) return res.status(404).send({message: 'There are not data to be returned.'});

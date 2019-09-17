@@ -51,7 +51,10 @@ const controller = {
      * Gets all documents of the collection
      */
     getAll: function (req, res){
-        Project.find({}).exec((err, projects) => {
+        // limit param
+        const limit = req.params.limit ? +req.params.limit : null;
+        // TODO: hacer el sort (meter un orden elegido por mi en formularios y en el modelo)
+        Project.find({}).sort({'date': -1}).limit(limit).exec((err, projects) => {
             if(err) return res.status(500).send({message: 'Error returning data.'});
 
             if(!projects) return res.status(404).send({message: 'There are not data to be returned.'});
