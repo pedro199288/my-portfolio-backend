@@ -6,6 +6,7 @@ const Schema = mongoose.Schema;
 // The schema of a collection's document
 const ProjectSchema = Schema({
     key: String,
+    order: Number,
     name: String,
     company: String,
     tools: [String],

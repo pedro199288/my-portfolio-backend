@@ -1,5 +1,3 @@
-'use strict'
-
 const Education = require('../models/education');
 const fs = require('fs');
 
@@ -52,16 +50,34 @@ const controller = {
     getAll: function (req, res){
         // limit param
         const limit = req.params.limit ? +req.params.limit : null;
-        // TODO: hacer el sort y ver como controlar el orden según que fecha hay definida y cual no
-        Education.find({}).sort({'date.end': -1}).limit(limit).exec((err, education) => {
+
+        // find and oder by date.end with limit
+        Education.find({}).sort({'date.end': -1, 'date.start': -1}).limit(limit).exec((err, education) => {
             if(err) return res.status(500).send({message: 'Error returning data: ', error: err });
 
             if(!education) return res.status(404).send({message: 'There are not data to be returned.'});
 
-            // if documents found, order it to put those with empty date at top, and after them thos with just date.start, finally the rest
-            const doingNowIndexes = education.findIndex(item =>/*item.date.start == '' &&*/ item.date.end == '');
-            console.log(doingNowIndexes, education);
-            // slice and put at the begining
+            // if documents found, sort it to put those with empty date at top, and after them thos with just date.start, finally the rest
+            indexesSeconds = [];
+            indexesFirsts = [];
+            // find indexes to be sorted
+            education.forEach((element, index) => {
+                if(element.date.start == "" && element.date.end == "") indexesSeconds.push(index);
+                else if(element.date.end == "") indexesFirsts.push(index);
+            });
+             
+            // slice on the main array  to take the elements that will go seconds
+            secondItems = education.splice(indexesSeconds[0], indexesSeconds.length); // first. take the seconds, because are the last on the main array.
+
+            // slice on the main array  to take the elements that will go firsts
+            firstsItems = education.splice(indexesFirsts[0], indexesFirsts.length);
+
+            // add the seconds at the begining of the array
+            secondItems.forEach(element => education.unshift(element));
+
+            // add the firsts at the begining of the array
+            firstsItems.forEach(element => education.unshift(element));
+
 
             return res.status(200).send({education});
         });

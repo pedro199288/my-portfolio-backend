@@ -1,5 +1,3 @@
-'use strict'
-
 const Experience = require('../models/experience');
 const fs = require('fs');
 
@@ -51,11 +49,24 @@ const controller = {
     getAll: function (req, res){
         // limit param
         const limit = req.params.limit ? +req.params.limit : null;
-        // TODO: hacer el sort y ver como controlar el orden según que fecha hay definida y cual no
-        Experience.find({}).sort({'date': -1}).limit(limit).exec((err, experience) => {
+       // find and oder by date.end and date.start with limit
+        Experience.find({}).sort({ 'date.end': -1, 'date.start': -1 }).limit(limit).exec((err, experience) => {
             if(err) return res.status(500).send({message: 'Error returning data.'});
 
             if(!experience) return res.status(404).send({message: 'There are not data to be returned.'});
+
+            // if documents found, sort it to put those with empty date at top, and after them thos with just date.start, finally the rest
+            indexesFirsts = [];
+            // find indexes to be sorted
+            experience.forEach((element, index) => {
+                if(element.date.end == "") indexesFirsts.push(index);
+            });
+            
+            // slice on the main array  to take the elements that will go firsts
+            firstsItems = experience.splice(indexesFirsts[0], indexesFirsts.length);
+
+            // add the firsts at the begining of the array
+            firstsItems.forEach(element => experience.unshift(element));
 
             return res.status(200).send({experience});
         });
