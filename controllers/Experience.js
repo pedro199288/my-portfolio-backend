@@ -1,4 +1,4 @@
-const Experience = require('../models/experience');
+const Experience = require('../models/Experience');
 const fs = require('fs');
 
 const controller = {

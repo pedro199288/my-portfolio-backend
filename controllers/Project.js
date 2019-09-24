@@ -1,6 +1,6 @@
 'use strict'
 
-const Project = require('../models/project');
+const Project = require('../models/Project');
 const fs = require('fs');
 const path = require('path');
 

@@ -1,4 +1,4 @@
-const Contact = require('../models/contact');
+const Contact = require('../models/Contact');
 const nodemailer = require('nodemailer');
 
 //Configure the account to be used for sending mails
@@ -71,7 +71,7 @@ const controller = {
                 } else {
                     console.log('Email sent: ' + info.response);
                     // Return response of data saved and message sended
-                    return res.status(200).send({contact: contactStored, message: contact});
+                    return res.status(200).send({contact: contactStored, message: true});
                 }
             });
 

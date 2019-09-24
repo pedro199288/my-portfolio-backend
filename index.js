@@ -2,7 +2,7 @@
 
 const mongoose = require('mongoose'); // imports mongoose from node_modules
 const app = require('./app');
-const port = 3700;
+const port = 3700; // 3700
 
 mongoose.Promise = global.Promise;
 mongoose.connect('mongodb://localhost:27017/my_portfolio', {useNewUrlParser : true})
