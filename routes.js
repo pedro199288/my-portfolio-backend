@@ -10,6 +10,7 @@ const ExperienceController = require('./controllers/Experience'); // Declare Con
 const EducationController = require('./controllers/Education'); // Declare Controller for the routes
 const ProjectController = require('./controllers/Project'); // Declare Controller for the routes
 const AuthController = require('./controllers/Auth');
+const ContactController = require('./controllers/Contact');
 
 
 // Middleware
@@ -59,5 +60,8 @@ router.get('/project/get-image/:image', ProjectController.getImage);
 
 // Route for authentication 
 router.post('/auth', AuthController.auth);
+
+// Route for contact message
+router.post('/send', ContactController.send);
 
 module.exports = router;

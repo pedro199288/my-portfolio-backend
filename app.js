@@ -30,6 +30,7 @@ app.use((req, res, next) => {
 // this tells the app to use jwt to access endpoints unless they are those included in array 
 app.use(expressJwt({secret: SECRET}).unless({
     path: [
+        '/api/send',
         {url: '/api/auth'},
         // {url: '/api/personal-data/all'},
         // {url: '/api/skill/all'},
@@ -41,7 +42,6 @@ app.use(expressJwt({secret: SECRET}).unless({
         // {url: '/api/project/all'},
         // {url: '/api/project/:id?'},
         // {url: '/\/api\/project\/get-image\/.*/'}
-        {url: '/\/api/\/project/\/upload-image\/.*/'}
     ],
     method: 'GET'
 }));
