@@ -64,4 +64,5 @@ router.post('/auth', AuthController.auth);
 // Route for contact message
 router.post('/send', ContactController.send);
 
+
 module.exports = router;

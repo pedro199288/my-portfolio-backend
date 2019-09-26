@@ -39,15 +39,17 @@ const controller = {
      * Updates a document of the collection by its id
      */
     send: function(req, res) {
+
         // save the contact message
         var contact = new Contact();
         const params = req.body;
-
+        
         contact.name = params.name;
         contact.email = params.email;
         contact.email = params.subject;
         contact.message = params.message;
-
+        console.log(contact);
+        
         contact.save((err, contactStored) => {
             if(err) return res.status(500).send({message: 'Save error !'});
 
@@ -68,19 +70,16 @@ const controller = {
             }, (error, info) => {
                 if (error) {
                     console.log(error);
+                    // Return response of data saved
+                    return res.status(200).send({contact: contactStored, message: null});
                 } else {
                     console.log('Email sent: ' + info.response);
                     // Return response of data saved and message sended
                     return res.status(200).send({contact: contactStored, message: true});
                 }
             });
-
-            // Return response of data saved
-            return res.status(200).send({contact: contactStored, message: null});
         });
     },
-
-
 }
 
 // Exports the module to be used on routes files

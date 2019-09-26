@@ -19,7 +19,7 @@ app.use(bodyParser.json());
 // Headers configuration and CORS
 app.use((req, res, next) => {
     res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Headers', 'Authorization, X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Allow-Request-Method');
+    res.header('Access-Control-Allow-Headers', 'append,delete,entries,foreach,get,has,keys,set,values,Authorization, X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Allow-Request-Method');
     res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');
     res.header('Allow', 'GET, POST, OPTIONS, PUT, DELETE');
     next();
@@ -30,8 +30,9 @@ app.use((req, res, next) => {
 // this tells the app to use jwt to access endpoints unless they are those included in array 
 app.use(expressJwt({secret: SECRET}).unless({
     path: [
-        '/api/send',
+        {url: '/api/send'},
         {url: '/api/auth'},
+        {url: '/api/log'},
         // {url: '/api/personal-data/all'},
         // {url: '/api/skill/all'},
         // {url: '/api/skill/:id?'},
@@ -44,7 +45,9 @@ app.use(expressJwt({secret: SECRET}).unless({
         // {url: '/\/api\/project\/get-image\/.*/'}
     ],
     method: 'GET'
+    
 }));
+
 
 // routes
 app.use('/api', project_routes);
