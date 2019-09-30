@@ -84,11 +84,25 @@ const controller = {
      */
     delete: function(req, res) {
         const projectId = req.params.id;
+        var oldImage = null;
+
+        // check if there was an image before updating, to delete it from the server 
+        Project.findById(projectId, 'image', (err, projectToUpdate) => {
+            if(projectToUpdate.image)
+                oldImage = 'uploads/'+projectToUpdate.image;
+        });
         
         Project.findByIdAndDelete(projectId, (err, projectDeleted) => {
             if(err) return res.status(500).send({message: 'Error deleting project'});
 
             if(!projectDeleted) return res.status(404).send({message: 'Cannot delete this project.'});
+
+            // if everything goes well, delete the old image
+            if(oldImage) {
+                fs.unlink(oldImage, (err) => {
+                    if (err) return res.status(200).send({projectDeleted, message: 'Old image not deleted'});
+                });
+            }
 
             return res.status(200).send({projectDeleted});
         });
@@ -100,22 +114,41 @@ const controller = {
     uploadImage: function (req, res) {
         const projectId = req.params.id;
         var fileName = 'Image not uploaded';
+        var oldImage = null;
 
         if(req.files){
             const filePath = req.files.image.path;      // gets the file path of the image
+            
             const fileSplit = filePath.split('\\');     // splits the file path to get the file name
             const fileName = fileSplit[1];              // gets the file name
             const extSplit = fileName.split('\.');      // splits the file name to get the extension
-            const fileExt = extSplit[1];                // gets the extensions to check it after
+            const fileExt = extSplit[1].toLowerCase();                // gets the extensions to check it after
 
             if(fileExt == 'png' || fileExt == 'jpg' || fileExt == 'jpeg' || fileExt == 'gif'){
-                // Update de document
+                // Update the document
+                
+                // check if there was an image before updating, to delete it from the server 
+                Project.findById(projectId, 'image', (err, projectToUpdate) => {
+                    if(projectToUpdate.image)
+                        oldImage = 'uploads/'+projectToUpdate.image;
+                });
+
+                // Update the image of the project
                 Project.findByIdAndUpdate(projectId, {image: fileName}, {new: true, useFindAndModify: false}, (err, projectUpdated) => {
                     if(err) return res.status(500).send({message: 'Error uploading image.'});
     
                     if(!projectUpdated) return res.status(404).send({message: 'The project to be updated does not exists.'});
-    
+
+                    // if everything goes well, delete the old image
+                    if(oldImage) {
+                        fs.unlink(oldImage, (err) => {
+                            if (err) return res.status(200).send({projectUpdated, message: 'Old image not deleted'});
+                        });
+                    }
+
+                    // return success response
                     return res.status(200).send({projectUpdated});
+    
                 });
             } else {
                 // If the extension is not correct, unlink the uploaded file

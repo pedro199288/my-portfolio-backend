@@ -32,17 +32,6 @@ app.use(expressJwt({secret: SECRET}).unless({
     path: [
         {url: '/api/send'},
         {url: '/api/auth'},
-        {url: '/api/log'},
-        // {url: '/api/personal-data/all'},
-        // {url: '/api/skill/all'},
-        // {url: '/api/skill/:id?'},
-        // {url: '/api/experience/all'},
-        // {url: '/api/experience/:id?'},
-        // {url: '/api/education/all'},
-        // {url: '/api/education/:id?'},
-        // {url: '/api/project/all'},
-        // {url: '/api/project/:id?'},
-        // {url: '/\/api\/project\/get-image\/.*/'}
     ],
     method: 'GET'
     
