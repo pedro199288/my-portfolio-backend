@@ -2,22 +2,8 @@
 
 const jwt = require('jsonwebtoken');
 const SECRET = require('./../secrets.js');
-
-const USERS = [
-    {
-        id: 'adsflñkj',
-        username: 'pedro',
-        password: 'admin'
-    },
-    {
-        username: 'admin',
-        password: 'admin'
-    },
-    {
-        username: 'ines',
-        password: 'ines'
-    },
-]
+const User = require('./../models/User'); 
+const bcrypt = require('bcrypt');
 
 const controller = {
     /**
@@ -25,13 +11,25 @@ const controller = {
      */
     auth: function (req, res) {
         const body = req.body;
-      
-        const user = USERS.find(user => user.username == body.username && user.password == body.password );
-        if(!user) return res.sendStatus(401);
-        
-        var token = jwt.sign({userID: user.id, name: user.username}, SECRET, {expiresIn: '2h'}); // default: HS256 encryption
-    
-        res.send({token});
+
+        // Look for the user in the database
+        User.findOne({name: body.username}, (err, user) => {
+            if(err) return res.status(500).send({message: 'Error: Can\'t return user'});
+
+            if(!user) return res.status(404).send({message: 'The user does not exists'});
+
+            // user exists, therefore check password
+            bcrypt.compare(body.password, user.password, (passErr, passRes) => {
+                if(passErr) return res.status(500).send({message: 'Server error'});
+
+                if(!passRes) return res.status(401).send({message: 'Not allowed!'});
+
+                var token = jwt.sign({userID: user._id, name: user.name}, SECRET, {expiresIn: '2h'}); // default: HS256 encryption
+            
+                return res.status(200).send({ token });
+            });
+            
+        });
     }
 }
 
