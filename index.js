@@ -1,6 +1,6 @@
 "use strict";
 // APPLICATION MODE ('dev' o 'prod')
-const DEPLOYMENT_MODE = "dev";
+const DEPLOYMENT_MODE = "prod";
 
 const mongoose = require("mongoose"); // imports mongoose from node_modules
 const app = require("./app");
@@ -8,16 +8,15 @@ const port = 3700; // 3700
 const fs = require("fs");
 const http = require("http");
 const https = require("https");
-if (DEPLOYMENT_MODE == "prod") {
-  // consts for production with SSL
-  const privateKey = fs.readFileSync(
-    "/etc/letsencrypt/live/monjidev.com/privkey.pem"
-  );
-  const certificate = fs.readFileSync(
-    "/etc/letsencrypt/live/monjidev.com/cert.pem"
-  );
-  const credentials = { key: privateKey, cert: certificate };
-}
+
+const credentials =
+  DEPLOYMENT_MODE == "prod"
+    ? // consts for production with SSL
+      {
+        key: fs.readFileSync("/etc/letsencrypt/live/monjidev.com/privkey.pem"),
+        cert: fs.readFileSync("/etc/letsencrypt/live/monjidev.com/cert.pem")
+      }
+    : {};
 
 mongoose.Promise = global.Promise;
 mongoose
