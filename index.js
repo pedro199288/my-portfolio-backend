@@ -1,6 +1,6 @@
 "use strict";
 // APPLICATION MODE ('dev' o 'prod')
-const DEPLOYMENT_MODE = "prod";
+const DEPLOYMENT_MODE = "dev";
 
 const mongoose = require("mongoose"); // imports mongoose from node_modules
 const app = require("./app");
