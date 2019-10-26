@@ -29,9 +29,9 @@ mongoose
       httpsServer.listen(port, () => {
         console.log("Server running with SSL on: 3700 !!");
       });
-    } else if (DEPLOYMENT_MODE == "dev") {
-      const httpServer = http.createServer(app);
-      httpServer.listen(port);
     }
+    const httpServer = http.createServer(app);
+    httpServer.listen(8080);
+    
   })
   .catch(err => console.log(err));
