@@ -13,8 +13,12 @@ const credentials =
   DEPLOYMENT_MODE == "prod"
     ? // consts for production with SSL
       {
-        key: fs.readFileSync("/etc/letsencrypt/live/monjidev.com/privkey.pem"),
-        cert: fs.readFileSync("/etc/letsencrypt/live/monjidev.com/cert.pem")
+        key: fs.readFileSync(
+          "/etc/letsencrypt/live/basketballparadise.monjidev.com/privkey.pem"
+        ),
+        cert: fs.readFileSync(
+          "/etc/letsencrypt/live/basketballparadise.monjidev.com/cert.pem"
+        )
       }
     : {};
 
@@ -32,6 +36,5 @@ mongoose
     }
     const httpServer = http.createServer(app);
     httpServer.listen(8080);
-    
   })
   .catch(err => console.log(err));
