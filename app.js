@@ -3,7 +3,6 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const jwt = require('jsonwebtoken');
 const expressJwt = require('express-jwt');
-const SECRET = require('./secrets.js');
 
 const app = express();
 
@@ -15,7 +14,6 @@ const project_routes = require('./routes');
 app.use(bodyParser.urlencoded({extended:false})); // necessary config for body-parser
 app.use(bodyParser.json());
 
-
 // Headers configuration and CORS
 app.use((req, res, next) => {
     res.header('Access-Control-Allow-Origin', '*');
@@ -25,16 +23,13 @@ app.use((req, res, next) => {
     next();
 });
 
-
-
 // this tells the app to use jwt to access endpoints unless they are those included in array 
-app.use(expressJwt({secret: SECRET}).unless({
+app.use(expressJwt({secret: process.env.JWT_SECRET}).unless({
     path: [
         {url: '/api/send'},
         {url: '/api/auth'},
     ],
     method: 'GET'
-    
 }));
 
 

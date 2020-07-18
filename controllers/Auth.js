@@ -1,7 +1,6 @@
 'use strict'
 
 const jwt = require('jsonwebtoken');
-const SECRET = require('./../secrets.js');
 const User = require('./../models/User'); 
 const bcrypt = require('bcrypt');
 
@@ -24,7 +23,7 @@ const controller = {
 
                 if(!passRes) return res.status(401).send({message: 'Not allowed!'});
 
-                var token = jwt.sign({userID: user._id, name: user.name}, SECRET, {expiresIn: '2h'}); // default: HS256 encryption
+                var token = jwt.sign({userID: user._id, name: user.name}, process.env.JWT_SECRET, {expiresIn: '2h'}); // default: HS256 encryption
             
                 return res.status(200).send({ token });
             });

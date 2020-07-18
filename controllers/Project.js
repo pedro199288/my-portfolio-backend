@@ -118,8 +118,7 @@ const controller = {
 
         if(req.files){
             const filePath = req.files.image.path;      // gets the file path of the image
-            
-            const fileSplit = filePath.split('\\');     // splits the file path to get the file name
+            const fileSplit = filePath.split('/');     // splits the file path to get the file name
             const fileName = fileSplit[1];              // gets the file name
             const extSplit = fileName.split('\.');      // splits the file name to get the extension
             const fileExt = extSplit[1].toLowerCase();                // gets the extensions to check it after
@@ -162,7 +161,6 @@ const controller = {
                 message: fileName
             });
         }
-
     },
 
     getImage: function (req, res) {
