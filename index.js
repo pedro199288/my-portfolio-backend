@@ -12,12 +12,8 @@ const credentials =
   process.env.NODE_ENV === "production"
     ? // consts for production with SSL
       {
-        key: fs.readFileSync(
-          "/etc/letsencrypt/live/basketballparadise.monjidev.com/privkey.pem"
-        ),
-        cert: fs.readFileSync(
-          "/etc/letsencrypt/live/basketballparadise.monjidev.com/cert.pem"
-        )
+        key: fs.readFileSync('./key.pem'),
+        cert: fs.readFileSync('./cert.pem'),
       }
     : {};
 
