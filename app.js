@@ -1,7 +1,6 @@
 // app config file
 const express = require('express');
 const bodyParser = require('body-parser');
-const jwt = require('jsonwebtoken');
 const expressJwt = require('express-jwt');
 
 const app = express();
@@ -24,7 +23,7 @@ app.use((req, res, next) => {
 });
 
 // this tells the app to use jwt to access endpoints unless they are those included in array 
-app.use(expressJwt({secret: process.env.JWT_SECRET}).unless({
+app.use(expressJwt({secret: process.env.JWT_SECRET, algorithms: ['RS256'] }).unless({
     path: [
         {url: '/api/send'},
         {url: '/api/auth'},
