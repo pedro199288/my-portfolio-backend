@@ -20,7 +20,7 @@ const credentials =
 
 mongoose.Promise = global.Promise;
 mongoose
-  .connect("mongodb://85.208.22.12:27017/my_portfolio", { useNewUrlParser: true, useUnifiedTopology: true  })
+  .connect("mongodb://localhost:27017/my_portfolio", { useNewUrlParser: true, useUnifiedTopology: true  })
   .then(() => {
     console.log("Node connected to the DB !!");
 
